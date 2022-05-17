@@ -44,11 +44,11 @@ class InputBox:
                     self.text += event.unicode
                 # Re-render the text.
 
-            self.txt_surface = FONT.render(self.text, True, self.color)
-            # if event.key == pg.K_RETURN:
-            #     if len(self.text) == 0:
-            #         print("Incomplete values")
-            #         return
+        self.txt_surface = FONT.render(self.text, True, self.color)
+        # if event.key == pg.K_RETURN:
+        #     if len(self.text) == 0:
+        #         print("Incomplete values")
+        #         return
 
     def update(self):
         # Resize the box if the text is too long.

@@ -272,8 +272,16 @@ def RestrictionEnzymes():
             if resenzclick:
                 if len(dnaa_box.text) != 0 and len(dnab_box.text) != 0:
                     print("Aumaimas code for comparison")
-                    ap1_box.text, ap2_box.text, bp1_box.text, bp2_box.text = str(
-                        restriction_enzyme_breakdown(dnaa_box.text, dnab_box.text))
+                    result = restriction_enzyme_breakdown(
+                        dnaa_box.text, dnab_box.text)
+                    if result != 'No Sequence recognized':
+                        ap1_box.text, ap2_box.text, bp1_box.text, bp2_box.text = str(
+                            restriction_enzyme_breakdown(dnaa_box.text, dnab_box.text))
+                    else:
+                        ap1_box.text = 'No Sequence recognized'
+                        ap2_box.text = 'No Sequence recognized'
+                        bp1_box.text = 'No Sequence recognized'
+                        bp2_box.text = 'No Sequence recognized'
                 else:
                     print("Incomplete values")
 
@@ -344,9 +352,10 @@ def DNAString():
                         print("complete values")
                         subpalinbox.text = str(
                             get_subpalindromes(string_box.text))
-                        longpalinbox.text = longest_pal(subpalinbox.text)
+                        palsresult = get_subpalindromes(string_box.text)
+                        longpalinbox.text = longest_pal(palsresult)
                         instabscorebox.text = str(instability_rate(
-                            subpalinbox.text, int(thresholdbox.text)))
+                            palsresult, int(thresholdbox.text)))
 
             for box in NewEntryInputBoxes:
                 box.handle_event(event)

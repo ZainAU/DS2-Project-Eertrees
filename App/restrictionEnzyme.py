@@ -39,7 +39,7 @@ def restriction_enzyme_breakdown(str1, str2):
             str2_broken1 = str2[0:str2.index(part_in_str2)+5]
             str2_broken2 = str2[str2.index(part_in_str2)+5:]
             # print(str2_broken2)
-            return str1_broken1, str2_broken1, str1_broken2, str2_broken2
+            return [str1_broken1, str2_broken1, str1_broken2, str2_broken2]
     return ('No Sequence recognized')
 
 
