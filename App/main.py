@@ -8,6 +8,7 @@ from oureertree import *
 from comparingDNA import *
 from restrictionEnzyme import *
 from analyzingDNA import *
+import pyautogui
 
 pygame.init()
 gameclock = pygame.time.Clock()
@@ -18,6 +19,8 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Ancestry")
 # general fonts
 font = pygame.font.SysFont(None, 30)
+infofont = pygame.font.SysFont(None, 20)
+bigfont = pygame.font.SysFont(None, 50)
 # general colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -49,9 +52,9 @@ def main_menu():
         # button 1 is string comparator
         # button 2 is restriction enzymes
         # future button 3 is DNAstring
-        stringcomparator = pygame.Rect((200, 400), (100, 50))
-        restrictionenzyme = pygame.Rect((400, 400), (100, 50))
-        dnastring = pygame.Rect((600, 400), (100, 50))
+        stringcomparator = pygame.Rect((150, 400), (100, 50))
+        restrictionenzyme = pygame.Rect((350, 400), (100, 50))
+        dnastring = pygame.Rect((550, 400), (100, 50))
         if stringcomparator.collidepoint((mx, my)):
             if click:
                 StringComparator()
@@ -62,13 +65,15 @@ def main_menu():
             if click:
                 DNAString()
 
-        pygame.draw.rect(screen, (171, 219, 227), stringcomparator)
-        pygame.draw.rect(screen, (171, 219, 227), restrictionenzyme)
-        pygame.draw.rect(screen, (171, 219, 227), dnastring)
+        pygame.draw.rect(screen, BLACK, stringcomparator, 3, 3)
+        pygame.draw.rect(screen, BLACK, restrictionenzyme, 3, 3)
+        pygame.draw.rect(screen, BLACK, dnastring, 3, 3)
         # text for button_1
-        draw_text("StringComparator", font, BLACK, screen, 200, 395)
-        draw_text("RestrcitionEnzymes", font, BLACK, screen, 400, 395)
-        draw_text("DNAString", font, BLACK, screen, 600, 395)
+        draw_text("Compare", font, BLACK, screen, 155, 410)
+        draw_text("Detect", font, BLACK, screen, 365, 410)
+        draw_text("Analyze", font, BLACK, screen, 555, 410)
+        # title text
+        draw_text("DNA Analysis App", bigfont, BLACK, screen, 220, 300)
 
         click = False
         for event in pygame.event.get():
@@ -111,22 +116,29 @@ def StringComparator():
         # back and compare buttons
         cmx, cmy = pygame.mouse.get_pos()
 
-        backbutton = pygame.Rect((200, 400), (100, 50))
-        comparebutton = pygame.Rect((400, 400), (100, 50))
-        clearvalsbutton = pygame.Rect((600, 400), (100, 50))
+        backbutton = pygame.Rect((150, 410), (100, 50))
+        comparebutton = pygame.Rect((350, 410), (100, 50))
+        clearvalsbutton = pygame.Rect((550, 410), (100, 50))
+        infobutton = pygame.Rect((760, 20), (20, 20))
         if backbutton.collidepoint((cmx, cmy)):
             if comparatorclick:
                 main_menu()
         if clearvalsbutton.collidepoint((cmx, cmy)):
             if comparatorclick:
                 StringComparator()
-
-        pygame.draw.rect(screen, (171, 219, 227), backbutton)
-        pygame.draw.rect(screen, (171, 219, 227), comparebutton)
-        pygame.draw.rect(screen, (171, 219, 227), clearvalsbutton)
-        draw_text("Back", font, BLACK, screen, 200, 395)
-        draw_text("Compare", font, BLACK, screen, 400, 395)
-        draw_text("Clear Values", font, BLACK, screen, 600, 395)
+        if infobutton.collidepoint((cmx, cmy)):
+            if comparatorclick:
+                pyautogui.alert("Insert info here",
+                                "DNA Comparison Information", "Ok")
+                # popup for info
+        pygame.draw.rect(screen, BLACK, infobutton, 2, 3)
+        pygame.draw.rect(screen, BLACK, backbutton, 3, 3)
+        pygame.draw.rect(screen, BLACK, comparebutton, 3, 3)
+        pygame.draw.rect(screen, BLACK, clearvalsbutton, 3, 3)
+        draw_text("i", infofont, BLACK, screen, 768, 24)
+        draw_text("Back", font, BLACK, screen, 170, 425)
+        draw_text("Compare", font, BLACK, screen, 355, 425)
+        draw_text("Clear", font, BLACK, screen, 570, 425)
         # string comparator text
         draw_text('DNA Comparison', font, BLACK, screen, 330, 70)
         # input boxes
@@ -136,6 +148,7 @@ def StringComparator():
         draw_text('Mutual Palindromes:', font, BLACK, screen, 100, 260)
         draw_text('More Unstable:', font, BLACK, screen, 100, 310)
         draw_text('Similarity Score:', font, BLACK, screen, 100, 360)
+
         comparatorclick = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -217,18 +230,29 @@ def RestrictionEnzymes():
         screen.fill(LIGHTGREY)
         #screen.blit(BACKGROUND, (0, 0))
         emx, emy = pygame.mouse.get_pos()
-        back2button = pygame.Rect((200, 395), (100, 50))
-        compare2button = pygame.Rect((400, 395), (100, 50))
-
+        back2button = pygame.Rect((150, 410), (100, 50))
+        compare2button = pygame.Rect((350, 410), (100, 50))
+        clear2valsbutton = pygame.Rect((550, 410), (100, 50))
+        info2button = pygame.Rect((760, 20), (20, 20))
         if back2button.collidepoint((emx, emy)):
             if resenzclick:
                 main_menu()
-
-        pygame.draw.rect(screen, (171, 219, 227), back2button)
-        pygame.draw.rect(screen, (171, 219, 227), compare2button)
-        draw_text("Back", font, BLACK, screen, 200, 395)
-        draw_text("Compare", font, BLACK, screen, 400, 395)
-
+        if clear2valsbutton.collidepoint((emx, emy)):
+            if resenzclick:
+                RestrictionEnzymes()
+        if info2button.collidepoint((emx, emy)):
+            if resenzclick:
+                pyautogui.alert("Insert info here",
+                                "Restriction Enzyme Information", "Ok")
+                # info popup
+        pygame.draw.rect(screen, BLACK, info2button, 2, 3)
+        pygame.draw.rect(screen, BLACK, back2button, 3, 3)
+        pygame.draw.rect(screen, BLACK, compare2button, 3, 3)
+        pygame.draw.rect(screen, BLACK, clear2valsbutton, 3, 3)
+        draw_text("i", infofont, BLACK, screen, 768, 24)
+        draw_text("Back", font, BLACK, screen, 170, 425)
+        draw_text("Compare", font, BLACK, screen, 355, 425)
+        draw_text("Clear", font, BLACK, screen, 570, 425)
         # string comparator text
         draw_text('Restriction Enzyme Detector', font, BLACK, screen, 250, 70)
         # input boxes
@@ -306,26 +330,33 @@ def DNAString():
                           subpalinbox, longpalinbox, instabscorebox]
 
     while dnarunning:
+        screen.fill(LIGHTGREY)
+
         dmx, dmy = pygame.mouse.get_pos()
 
-        backbutton = pygame.Rect((200, 600), (100, 50))
-        computebutton = pygame.Rect((400, 600), (100, 50))
-        clearvalsbutton = pygame.Rect((600, 600), (100, 50))
-        if backbutton.collidepoint((dmx, dmy)):
+        back3button = pygame.Rect((600, 300), (100, 50))
+        compute3button = pygame.Rect((600, 400), (100, 50))
+        clear3valsbutton = pygame.Rect((600, 500), (100, 50))
+        info3button = pygame.Rect((760, 20), (20, 20))
+        if back3button.collidepoint((dmx, dmy)):
             if dnaclick:
                 main_menu()
-        if clearvalsbutton.collidepoint((dmx, dmy)):
+        if clear3valsbutton.collidepoint((dmx, dmy)):
             if dnaclick:
                 DNAString()
+        if info3button.collidepoint((dmx, dmy)):
+            if dnaclick:
+                pyautogui.alert("Insert info here", "DNA Information", "Ok")
+                # info popup
+        pygame.draw.rect(screen, BLACK, info3button, 2, 3)
+        pygame.draw.rect(screen, BLACK, back3button, 3, 3)
+        pygame.draw.rect(screen, BLACK, compute3button, 3, 3)
+        pygame.draw.rect(screen, BLACK, clear3valsbutton, 3, 3)
+        draw_text("i", infofont, BLACK, screen, 768, 24)
+        draw_text("Back", font, BLACK, screen, 620, 315)
+        draw_text("Compare", font, BLACK, screen, 605, 415)
+        draw_text("Clear", font, BLACK, screen, 620, 515)
 
-        pygame.draw.rect(screen, (171, 219, 227), backbutton)
-        pygame.draw.rect(screen, (171, 219, 227), computebutton)
-        pygame.draw.rect(screen, (171, 219, 227), clearvalsbutton)
-        draw_text("Back", font, BLACK, screen, 200, 395)
-        draw_text("Compare", font, BLACK, screen, 400, 395)
-        draw_text("Clear Values", font, BLACK, screen, 600, 395)
-
-        screen.fill(LIGHTGREY)
         draw_text('Enter String:', font, BLACK, screen, 50, 20)
         draw_text('String:', font, BLACK, screen, 80, 100)
         draw_text("Threshold:", font, BLACK, screen, 390, 100)
