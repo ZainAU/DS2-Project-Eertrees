@@ -1,3 +1,4 @@
+from string import whitespace
 import pygame
 import sys
 from textboxes import InputBox
@@ -75,7 +76,9 @@ def GenomeSequencer():
     name_box = InputBox(120, 95, 30, 30)
     country_box = InputBox(450, 95, 30, 30)
     genome_box = InputBox(850, 95, 30, 30)
-    NewEntryInputBoxes = [name_box, country_box, genome_box]
+    # testcase displaybox adds int from namebox and country box and displays result
+    display_box = InputBox(640, 500, 30, 30)
+    NewEntryInputBoxes = [name_box, country_box, genome_box, display_box]
     while running:
         screen.fill('#0d0e2e')
         #screen.blit(BACKGROUND, (0, 0))
@@ -84,6 +87,7 @@ def GenomeSequencer():
         draw_text('Name:', font, WHITE, screen, 50, 100)
         draw_text('Country:', font, WHITE, screen, 350, 100)
         draw_text('Genome Sequence:', font, WHITE, screen, 660, 100)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -92,6 +96,15 @@ def GenomeSequencer():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+
+                if event.key == pygame.K_RETURN:
+                    if len(name_box.text) == 0 or len(country_box.text) == 0 or len(genome_box.text) == 0:
+                        print("Incomplete values")
+                        # return
+                    else:
+                        print("complete values")
+                        display_box.text = str(
+                            int(name_box.text)+int(country_box.text))
 
             for box in NewEntryInputBoxes:
                 box.handle_event(event)
