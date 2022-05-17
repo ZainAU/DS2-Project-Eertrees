@@ -1,6 +1,6 @@
 from binascii import Incomplete
 import pygame as pg
-
+import pyperclip
 
 pg.init()
 screen = pg.display.set_mode((640, 480))
@@ -11,12 +11,13 @@ FONT = pg.font.Font(None, 32)
 
 class InputBox:
 
-    def __init__(self, x, y, w, h, text=''):
+    def __init__(self, x, y, w, h, text='', editable=True):
         self.rect = pg.Rect(x, y, w, h)
         self.color = COLOR_INACTIVE
         self.text = text
         self.txt_surface = FONT.render(text, True, self.color)
         self.active = False
+        self.editable = editable
 
     def handle_event(self, event):
 
@@ -30,15 +31,19 @@ class InputBox:
             # Change the current color of the input box.
             self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
         if event.type == pg.KEYDOWN:
-            if self.active:
+            if self.active and self.editable:
                 # if event.key == pg.K_RETURN:
                 #     print(self.text)
                 #     self.text = ''
                 if event.key == pg.K_BACKSPACE:
                     self.text = self.text[:-1]
+
+                elif event.key == pg.K_v and pg.key.get_mods() & pg.KMOD_CTRL:
+                    self.text = pyperclip.paste()
                 else:
                     self.text += event.unicode
                 # Re-render the text.
+
             self.txt_surface = FONT.render(self.text, True, self.color)
             # if event.key == pg.K_RETURN:
             #     if len(self.text) == 0:
