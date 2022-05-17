@@ -1,3 +1,4 @@
+from binascii import Incomplete
 import pygame as pg
 
 
@@ -18,6 +19,7 @@ class InputBox:
         self.active = False
 
     def handle_event(self, event):
+
         if event.type == pg.MOUSEBUTTONDOWN:
             # If the user clicked on the input_box rect.
             if self.rect.collidepoint(event.pos):
@@ -29,15 +31,19 @@ class InputBox:
             self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
         if event.type == pg.KEYDOWN:
             if self.active:
-                if event.key == pg.K_RETURN:
-                    print(self.text)
-                    self.text = ''
-                elif event.key == pg.K_BACKSPACE:
+                # if event.key == pg.K_RETURN:
+                #     print(self.text)
+                #     self.text = ''
+                if event.key == pg.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
                     self.text += event.unicode
                 # Re-render the text.
-                self.txt_surface = FONT.render(self.text, True, self.color)
+            self.txt_surface = FONT.render(self.text, True, self.color)
+            # if event.key == pg.K_RETURN:
+            #     if len(self.text) == 0:
+            #         print("Incomplete values")
+            #         return
 
     def update(self):
         # Resize the box if the text is too long.
@@ -50,32 +56,35 @@ class InputBox:
         # Blit the rect.
         pg.draw.rect(screen, self.color, self.rect, 2)
 
-
-def main():
-    clock = pg.time.Clock()
-    input_box1 = InputBox(100, 100, 140, 32)
-    input_box2 = InputBox(100, 300, 140, 32)
-    input_boxes = [input_box1, input_box2]
-    done = False
-
-    while not done:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                done = True
-            for box in input_boxes:
-                box.handle_event(event)
-
-        for box in input_boxes:
-            box.update()
-
-        screen.fill((30, 30, 30))
-        for box in input_boxes:
-            box.draw(screen)
-
-        pg.display.flip()
-        clock.tick(30)
+    def set_text(self, text):
+        self.text = text
 
 
-if __name__ == '__main__':
-    main()
-    pg.quit()
+# def main():
+#     clock = pg.time.Clock()
+#     input_box1 = InputBox(100, 100, 140, 32)
+#     input_box2 = InputBox(100, 300, 140, 32)
+#     input_boxes = [input_box1, input_box2]
+#     done = False
+
+#     while not done:
+#         for event in pg.event.get():
+#             if event.type == pg.QUIT:
+#                 done = True
+#             for box in input_boxes:
+#                 box.handle_event(event)
+
+#         for box in input_boxes:
+#             box.update()
+
+#         screen.fill((30, 30, 30))
+#         for box in input_boxes:
+#             box.draw(screen)
+
+#         pg.display.flip()
+#         clock.tick(30)
+
+
+# if __name__ == '__main__':
+#     main()
+#     pg.quit()
