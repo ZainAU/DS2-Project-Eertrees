@@ -1,0 +1,10 @@
+Restriction Enzyme
+str1 = 'XZYGAATTC'
+str2 = 'CTTAAGXYZ'
+
+Analyzing DNA
+str = gtggggctcacttagcaatctagaacgacgattgaccgagggcagaaatcgtccttgtttgccgcgagtgtgagtttgttccaggagc
+
+Comparing
+str1 = gagaccggagaatgacgggtgtcgatctagcgtagtg
+str2 = tattatggtacactgacgtactagaaaggctacatt

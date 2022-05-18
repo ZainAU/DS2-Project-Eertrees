@@ -29,12 +29,12 @@ def similar_palindromes(lst1, lst2):
 
 # Similarity Score
 def similarity_score(similar, lst1, lst2):
-    return len(similar)/(len(lst1)+len(lst2))
+    return round(len(similar)/(len(lst1)+len(lst2)), 2)
 
 
 # Get string instbility score and which one is more instable
 def instability_comparission(lst1, lst2):
-    threshold_length = 8
+    threshold_length = 4
 
     instability_score_str1 = instability_rate(lst1, threshold_length)
     #print ('1  ',instability_score_str1)
@@ -42,11 +42,11 @@ def instability_comparission(lst1, lst2):
     #print('2  ',instability_score_str2)
 
     if instability_score_str1 > instability_score_str2:
-        return('DNA string 2 is more instable than DNA string 1 by ' +
-               str(instability_score_str1-instability_score_str2))
+        return('DNA string 2 is more instable,' +
+               str(round(instability_score_str1-instability_score_str2, 2)))
     elif instability_score_str1 == instability_score_str2:
-        return('Both string are equally instable with' +
-               str(instability_score_str2) + ' instable rate')
+        return('Both string are equally instable,' +
+               str(round(instability_score_str2, 2)))
     else:
-        return('DNA string 1 is more instable than DNA string 2 by ' +
-               str(instability_score_str2-instability_score_str1))
+        return('DNA string 1 is more instable,' +
+               str(round(instability_score_str2-instability_score_str1, 2)))

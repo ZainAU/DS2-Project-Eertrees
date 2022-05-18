@@ -3,7 +3,7 @@ import pygame as pg
 import pyperclip
 
 pg.init()
-screen = pg.display.set_mode((640, 480))
+# screen = pg.display.set_mode((640, 480))
 COLOR_INACTIVE = pg.Color('lightskyblue3')
 COLOR_ACTIVE = pg.Color('dodgerblue2')
 FONT = pg.font.Font(None, 32)
