@@ -29,7 +29,7 @@ def similar_palindromes(lst1, lst2):
 
 # Similarity Score
 def similarity_score(similar, lst1, lst2):
-    return len(similar)/(len(lst1)+len(lst2))
+    return round(len(similar)/(len(lst1)+len(lst2)), 2)
 
 
 # Get string instbility score and which one is more instable

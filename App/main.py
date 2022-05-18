@@ -1,4 +1,5 @@
 from cgitb import text
+from msilib.schema import Error
 from string import whitespace
 from turtle import back
 import pygame
@@ -101,7 +102,7 @@ def StringComparator():
     comparatorclick = False
     comparatorrunning = True
     string1_box = InputBox(150, 125, 30, 30)
-    string2_box = InputBox(480, 125, 30, 30)
+    string2_box = InputBox(150, 175, 30, 30)
     #country_box = InputBox(450, 95, 30, 30)
     #genome_box = InputBox(850, 95, 30, 30)
     # testcase displaybox adds int from namebox and country box and displays result
@@ -149,7 +150,7 @@ def StringComparator():
         draw_text('DNA Comparison', font, BLACK, screen, 330, 70)
         # input boxes
         draw_text('DNA A:', font, BLACK, screen, 70, 130)
-        draw_text('DNA B:', font, BLACK, screen, 400, 130)
+        draw_text('DNA B:', font, BLACK, screen, 70, 180)
         # output boxes
         draw_text('Mutual Palindromes:', font, BLACK, screen, 100, 260)
         draw_text('More Unstable:', font, BLACK, screen, 100, 310)
@@ -171,6 +172,7 @@ def StringComparator():
                 if event.key == pygame.K_RETURN:
                     if len(string1_box.text) == 0 or len(string2_box.text) == 0:
                         print("Incomplete values")
+                        pyautogui.alert("Incomplete Values", "Error", "Ok")
                         # return
                     elif len(string1_box.text) > 0 and len(string2_box.text) > 0:
                         print("complete values")
@@ -195,7 +197,7 @@ def StringComparator():
         if comparebutton.collidepoint((cmx, cmy)):
             if comparatorclick:
                 if len(string1_box.text) != 0 and len(string2_box.text) != 0:
-                    print("Aumaimas code for comparison")
+                    print("code for comparison")
                     # string1_box.text = renderTextCenteredAt(
                     #     string1_box.text, font, BLACK, 150, 125, screen, 50)
                     # string2_box.text = renderTextCenteredAt(
@@ -290,6 +292,7 @@ def RestrictionEnzymes():
                 if event.key == pygame.K_RETURN:
                     if len(dnaa_box.text) == 0 or len(dnab_box.text) == 0:
                         print("Incomplete values")
+                        pyautogui.alert("Incomplete Values", "Error", "Ok")
                         # return
                     elif len(dnaa_box.text) > 0 and len(dnab_box.text) > 0:
                         print("complete values")
@@ -333,6 +336,7 @@ def RestrictionEnzymes():
                         bp2_box.text = 'No Sequence recognized'
                 else:
                     print("Incomplete values")
+                    pyautogui.alert("Incomplete Values", "Error", "Ok")
 
         for box in resenzInputBoxes:
             box.update()
@@ -403,6 +407,7 @@ def DNAString():
                 if event.key == pygame.K_RETURN:
                     if len(string_box.text) == 0:
                         print("Incomplete values")
+                        pyautogui.alert("Incomplete Values", "Error", "Ok")
                         # return
                     elif len(string_box.text) > 0 and len(thresholdbox.text) > 0:
                         print("complete values")
@@ -418,7 +423,7 @@ def DNAString():
         if compute3button.collidepoint((dmx, dmy)):
             if dnaclick:
                 if len(string_box.text) != 0 and len(thresholdbox.text) != 0:
-                    print("Aumaimas code for comparison")
+                    print("code for comparison")
                     subpalinbox.text = str(get_subpalindromes(string_box.text))
                     palsresult = get_subpalindromes(string_box.text)
                     longpalinbox.text = longest_pal(palsresult)
@@ -426,6 +431,7 @@ def DNAString():
                         palsresult, int(thresholdbox.text)))
                 else:
                     print("Incomplete values")
+                    pyautogui.alert("Incomplete Values", "Error", "Ok")
 
         for box in NewEntryInputBoxes:
             box.update()
