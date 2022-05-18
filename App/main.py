@@ -3,7 +3,7 @@ from string import whitespace
 from turtle import back
 import pygame
 import sys
-from textboxes import InputBox
+from textboxes import InputBox, renderTextCenteredAt
 from oureertree import *
 from comparingDNA import *
 from restrictionEnzyme import *
@@ -16,7 +16,12 @@ gameclock = pygame.time.Clock()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Ancestry")
+pygame.display.set_caption("DNA Analysis")
+icon = pygame.image.load("icon.jpg")
+pygame.display.set_icon(icon)
+# background
+background = pygame.image.load("bg.png")
+
 # general fonts
 font = pygame.font.SysFont(None, 30)
 infofont = pygame.font.SysFont(None, 20)
@@ -46,8 +51,8 @@ def main_menu():
     running = True
 
     while running:
-        screen.fill(LIGHTGREY)
-
+        # screen.fill(LIGHTGREY)
+        screen.blit(background, (0, 0))
         mx, my = pygame.mouse.get_pos()
         # button 1 is string comparator
         # button 2 is restriction enzymes
@@ -190,6 +195,10 @@ def StringComparator():
             if comparatorclick:
                 if len(string1_box.text) != 0 and len(string2_box.text) != 0:
                     print("Aumaimas code for comparison")
+                    # string1_box.text = renderTextCenteredAt(
+                    #     string1_box.text, font, BLACK, 150, 125, screen, 50)
+                    # string2_box.text = renderTextCenteredAt(
+                    #     string2_box.text, font, BLACK, 480, 125, screen, 50)
                     eertree1 = Eertree()
                     eertree2 = Eertree()
                     eertree1.addStringToTree(string1_box.text)
@@ -323,9 +332,9 @@ def DNAString():
     dnarunning = True
     string_box = InputBox(150, 95, 30, 30)
     thresholdbox = InputBox(500, 95, 30, 30)
-    subpalinbox = InputBox(275, 195, 30, 30)
-    longpalinbox = InputBox(275, 325, 30, 30)
-    instabscorebox = InputBox(275, 455, 30, 30)
+    subpalinbox = InputBox(275, 195, 30, 30, editable=False)
+    longpalinbox = InputBox(275, 325, 30, 30, editable=False)
+    instabscorebox = InputBox(275, 455, 30, 30, editable=False)
     NewEntryInputBoxes = [string_box, thresholdbox,
                           subpalinbox, longpalinbox, instabscorebox]
 
@@ -357,7 +366,7 @@ def DNAString():
         draw_text("Compare", font, BLACK, screen, 605, 415)
         draw_text("Clear", font, BLACK, screen, 620, 515)
 
-        draw_text('Enter String:', font, BLACK, screen, 50, 20)
+        draw_text('Analyze DNA String', font, BLACK, screen, 300, 30)
         draw_text('String:', font, BLACK, screen, 80, 100)
         draw_text("Threshold:", font, BLACK, screen, 390, 100)
         draw_text('SubPalimdromes:', font, BLACK, screen, 70, 200)
@@ -390,6 +399,18 @@ def DNAString():
 
             for box in NewEntryInputBoxes:
                 box.handle_event(event)
+        if compute3button.collidepoint((dmx, dmy)):
+            if dnaclick:
+                if len(string_box.text) != 0 and len(thresholdbox.text) != 0:
+                    print("Aumaimas code for comparison")
+                    subpalinbox.text = str(get_subpalindromes(string_box.text))
+                    palsresult = get_subpalindromes(string_box.text)
+                    longpalinbox.text = longest_pal(palsresult)
+                    instabscorebox.text = str(instability_rate(
+                        palsresult, int(thresholdbox.text)))
+                else:
+                    print("Incomplete values")
+
         for box in NewEntryInputBoxes:
             box.update()
         for box in NewEntryInputBoxes:
