@@ -3,7 +3,7 @@ from string import whitespace
 from turtle import back
 import pygame
 import sys
-from textboxes import InputBox, renderTextCenteredAt
+from textboxes import InputBox
 from oureertree import *
 from comparingDNA import *
 from restrictionEnzyme import *
@@ -16,7 +16,7 @@ gameclock = pygame.time.Clock()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("DNA Analysis")
+pygame.display.set_caption("Gene Analysis")
 icon = pygame.image.load("icon.jpg")
 pygame.display.set_icon(icon)
 # background
@@ -25,7 +25,7 @@ background = pygame.image.load("bg.png")
 # general fonts
 font = pygame.font.SysFont(None, 30)
 infofont = pygame.font.SysFont(None, 20)
-bigfont = pygame.font.SysFont(None, 50)
+bigfont = pygame.font.SysFont(None, 70)
 # general colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -78,7 +78,7 @@ def main_menu():
         draw_text("Detect", font, BLACK, screen, 365, 410)
         draw_text("Analyze", font, BLACK, screen, 555, 410)
         # title text
-        draw_text("DNA Analysis App", bigfont, BLACK, screen, 220, 300)
+        draw_text("Gene Analysis App", bigfont, BLACK, screen, 180, 250)
 
         click = False
         for event in pygame.event.get():
@@ -116,6 +116,7 @@ def StringComparator():
                           SimilarPal_box, Stabler_box, SimScore_box]
 
     while comparatorrunning:
+
         screen.fill(LIGHTGREY)
         #screen.blit(BACKGROUND, (0, 0))
         # back and compare buttons
@@ -133,7 +134,7 @@ def StringComparator():
                 StringComparator()
         if infobutton.collidepoint((cmx, cmy)):
             if comparatorclick:
-                pyautogui.alert("Insert info here",
+                pyautogui.alert("Takes in two DNA strings, finds similar palindromic sequences, produces a similarity score and determines which one is more unstable",
                                 "DNA Comparison Information", "Ok")
                 # popup for info
         pygame.draw.rect(screen, BLACK, infobutton, 2, 3)
@@ -251,7 +252,7 @@ def RestrictionEnzymes():
                 RestrictionEnzymes()
         if info2button.collidepoint((emx, emy)):
             if resenzclick:
-                pyautogui.alert("Insert info here",
+                pyautogui.alert("Divides double stranded DNA into palindromes and identifies any palindromic site that can be cut of using a restriction enzyme.\nIf yes, then breaks down molecules into two parts",
                                 "Restriction Enzyme Information", "Ok")
                 # info popup
         pygame.draw.rect(screen, BLACK, info2button, 2, 3)
@@ -295,8 +296,19 @@ def RestrictionEnzymes():
                         # display_box.text = str(
                         #     int(name_box.text)+int(country_box.text))
                         # //Area for Aumaimas code for mutual pals,more unstable, similarityscore
-                        ap1_box.text, ap2_box.text, bp1_box.text, bp2_box.text = str(
-                            restriction_enzyme_breakdown(dnaa_box.text, dnab_box.text))
+                        if len(dnaa_box.text) != 0 and len(dnab_box.text) != 0:
+                            print("code for comparison")
+                            result = restriction_enzyme_breakdown(
+                                dnaa_box.text, dnab_box.text)
+                            ap1_box.text = result[0]
+                            ap2_box.text = result[1]
+                            bp1_box.text = result[2]
+                            bp2_box.text = result[3]
+                        else:
+                            ap1_box.text = 'No Sequence recognized'
+                            ap2_box.text = 'No Sequence recognized'
+                            bp1_box.text = 'No Sequence recognized'
+                            bp2_box.text = 'No Sequence recognized'
 
             for box in resenzInputBoxes:
                 box.handle_event(event)
@@ -304,12 +316,16 @@ def RestrictionEnzymes():
         if compare2button.collidepoint((emx, emy)):
             if resenzclick:
                 if len(dnaa_box.text) != 0 and len(dnab_box.text) != 0:
-                    print("Aumaimas code for comparison")
+                    print("code for comparison")
                     result = restriction_enzyme_breakdown(
                         dnaa_box.text, dnab_box.text)
                     if result != 'No Sequence recognized':
-                        ap1_box.text, ap2_box.text, bp1_box.text, bp2_box.text = str(
-                            restriction_enzyme_breakdown(dnaa_box.text, dnab_box.text))
+                        result = restriction_enzyme_breakdown(
+                            dnaa_box.text, dnab_box.text)
+                        ap1_box.text = result[0]
+                        ap2_box.text = result[1]
+                        bp1_box.text = result[2]
+                        bp2_box.text = result[3]
                     else:
                         ap1_box.text = 'No Sequence recognized'
                         ap2_box.text = 'No Sequence recognized'
@@ -330,8 +346,8 @@ def RestrictionEnzymes():
 def DNAString():
     dnaclick = False
     dnarunning = True
-    string_box = InputBox(150, 95, 30, 30)
-    thresholdbox = InputBox(500, 95, 30, 30)
+    string_box = InputBox(200, 95, 30, 30)
+    thresholdbox = InputBox(200, 145, 30, 30)
     subpalinbox = InputBox(275, 195, 30, 30, editable=False)
     longpalinbox = InputBox(275, 325, 30, 30, editable=False)
     instabscorebox = InputBox(275, 455, 30, 30, editable=False)
@@ -355,7 +371,7 @@ def DNAString():
                 DNAString()
         if info3button.collidepoint((dmx, dmy)):
             if dnaclick:
-                pyautogui.alert("Insert info here", "DNA Information", "Ok")
+                pyautogui.alert("Takes in a DNA molecule, identifies all palindromic strings, and based upon  threshold value for strings considered to be long enough to be a 'fragile site,' it gives off an instability score and the longest fragile site", "DNA Information", "Ok")
                 # info popup
         pygame.draw.rect(screen, BLACK, info3button, 2, 3)
         pygame.draw.rect(screen, BLACK, back3button, 3, 3)
@@ -367,8 +383,8 @@ def DNAString():
         draw_text("Clear", font, BLACK, screen, 620, 515)
 
         draw_text('Analyze DNA String', font, BLACK, screen, 300, 30)
-        draw_text('String:', font, BLACK, screen, 80, 100)
-        draw_text("Threshold:", font, BLACK, screen, 390, 100)
+        draw_text('DNA String:', font, BLACK, screen, 80, 100)
+        draw_text("Threshold:", font, BLACK, screen, 80, 150)
         draw_text('SubPalimdromes:', font, BLACK, screen, 70, 200)
         draw_text('Longest Palindrome:', font, BLACK, screen, 70, 330)
         draw_text('Instability Score:', font, BLACK, screen, 70, 460)

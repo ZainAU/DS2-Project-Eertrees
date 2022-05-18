@@ -43,8 +43,8 @@ def restriction_enzyme_breakdown(str1, str2):
     return ('No Sequence recognized')
 
 
-#print(restriction_enzyme_breakdown(str1, str2))
+# print(restriction_enzyme_breakdown(str1, str2))
 
-
-# print ('Double stranded DNA 1 \n', str1_broken1, '\n', str2_broken1)
-# print ('Double stranded DNA 2 \n', str1_broken2, '\n', str2_broken2)
+# str1_broken1, str2_broken1, str1_broken2, str2_broken2 = '', '', '', ''
+# print('Double stranded DNA 1 \n', str1_broken1, '\n', str2_broken1)
+# print('Double stranded DNA 2 \n', str1_broken2, '\n', str2_broken2)
